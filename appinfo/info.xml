@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>mgleefnotes</id>
+    <name>Leef Notes</name>
+    <summary>A simple note taking application</summary>
+    <description><![CDATA[A simple note taking application]]></description>
+    <licence>agpl</licence>
+    <author mail="mengqigu@gmail.com" >Mengqi Gu</author>
+    <version>0.0.1</version>
+    <namespace>MGLeefNotes</namespace>
+    <category>office</category>
+    <bugs>https://www.mengqi-gu.com/</bugs>
+    <dependencies>
+        <nextcloud min-version="12" max-version="12"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Leef Notes</name>
+            <route>mgleefnotes.page.index</route>
+        </navigation>
+    </navigations>
+</info>

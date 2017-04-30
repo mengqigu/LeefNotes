@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DEV_DIR=/home/mengqigu/Developer
+cd $DEV_DIR
+
+rsync -av --exclude='mgleefnotes/.gitignore' --exclude='mgleefnotes/.git/' mgleefnotes nextcloud/apps
+
+exit #  The right and proper method of "exiting" from a script.
+     #  A bare "exit" (no parameter) returns the exit status
+     #+ of the preceding command.

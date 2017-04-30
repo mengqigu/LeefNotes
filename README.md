@@ -1,5 +1,8 @@
-# M G Leef Notes
-Place this app in **nextcloud/apps/**
+# Leef Notes
+
+## Download
+git clone https://github.com/mengqigu/LeefNotes mgleefnotes
+Place folder mgleefnotes in **nextcloud/apps/**
 
 ## Building the app
 

@@ -7,10 +7,10 @@
     <description><![CDATA[A simple note taking application]]></description>
     <licence>agpl</licence>
     <author mail="mengqigu@gmail.com" >Mengqi Gu</author>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <namespace>MGLeefNotes</namespace>
     <category>office</category>
-    <bugs>https://www.mengqi-gu.com/</bugs>
+    <bugs>https://github.com/mengqigu/LeefNotes</bugs>
     <dependencies>
         <nextcloud min-version="12" max-version="12"/>
     </dependencies>

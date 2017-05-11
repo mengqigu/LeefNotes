@@ -1,0 +1,14 @@
+List all notes:
+curl -u nextcloud:nextcloud http://localhost:8000/nextcloud/index.php/apps/mgleefnotes/api/0.1/notes
+
+List note number 1:
+curl -u nextcloud:nextcloud http://localhost:8000/nextcloud/index.php/apps/mgleefnotes/api/0.1/notes/1
+
+Create a new note:
+curl -u nextcloud:nextcloud -H "Content-Type: application/json" -X POST -d '{"title":"another title","content":"This content", "folder":""}' http://localhost:8000/nextcloud/index.php/apps/mgleefnotes/api/0.1/notes
+
+Update note number 1:
+curl -u nextcloud:nextcloud -H "Content-Type: application/json" -X PUT -d '{"title":"Updated title","content":"This content", "folder":"updated"}' http://localhost:8000/nextcloud/index.php/apps/mgleefnotes/api/0.1/notes/1
+
+Delte note number 1:
+curl -u nextcloud:nextcloud -X DELETE http://localhost:8000/nextcloud/index.php/apps/mgleefnotes/api/0.1/notes/1

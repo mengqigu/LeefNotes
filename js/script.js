@@ -414,7 +414,6 @@
 
 			// Show / hide folder contents in note navigation
 			$('body').on('click', 'li.collapsible > .folderName', function(){
-                console.log("Colapssible clicked");
 				$(this).parent().toggleClass("open");
 			});
 

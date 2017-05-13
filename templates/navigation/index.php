@@ -35,7 +35,7 @@
     {{#each folders}}
         {{#if folderName}}​
     <li class="collapsible">
-        <button class="collapse"></button>
+        <!-- <button class="collapse"></button> -->
         <a href="#" class="icon-folder svg folderName">{{folderName}}</a>
         <ul>
             {{#each folderNotesList}}

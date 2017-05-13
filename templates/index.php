@@ -1,5 +1,7 @@
 <?php
 script('mgleefnotes', 'script');
+script('mgleefnotes', 'rte');
+script('mgleefnotes', 'handlebars');
 style('mgleefnotes', 'style');
 ?>
 
@@ -15,4 +17,3 @@ style('mgleefnotes', 'style');
 		</div>
 	</div>
 </div>
-

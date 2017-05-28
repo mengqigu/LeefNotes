@@ -25,13 +25,36 @@ namespace OCA\MGLeefNotes\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\ApiController;
+use OCP\ILogger;
+
+use OCA\MGLeefNotes\Service\Environment;
+use OCA\MGLeefNotes\Service\DebugService;
 
 // use OCA\MGLeefNotes\Service\NoteService;
 
 class DebugApiController extends ApiController {
+	/** @var Environment */
+	private $environment;
+    /** @var ILogger */
+    protected $logger;
 
-    public function __construct($AppName, IRequest $request, $UserId){
+	/***
+	 * Constructor
+	 *
+	 * @param string $AppName
+	 * @param IRequest $request
+	 * @param Environment $environment
+	 * @param ILogger $logger
+	 */
+    public function __construct(
+        $AppName,
+        IRequest $request,
+		Environment $environment,
+        ILogger $logger
+    ){
         parent::__construct($AppName, $request);
+		$this->environment = $environment;
+        $this->logger = $logger;
     }
 
     /**
@@ -40,6 +63,7 @@ class DebugApiController extends ApiController {
      * @NoAdminRequired
      */
     public function index() {
-        return new DataResponse("123_");
+        $this->logger->alert("Hello wtf2");
+        return new DataResponse("No shit!");
     }
 }

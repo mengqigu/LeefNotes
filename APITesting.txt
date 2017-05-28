@@ -12,3 +12,6 @@ curl -u nextcloud:nextcloud -H "Content-Type: application/json" -X PUT -d '{"tit
 
 Delte note number 1:
 curl -u nextcloud:nextcloud -X DELETE http://localhost:8000/nextcloud/index.php/apps/mgleefnotes/api/0.1/notes/1
+
+Debug:
+curl -H 'Cache-Control: no-cache' -u nextcloud:nextcloud http://localhost:8000/nextcloud/index.php/apps/mgleefnotes/api/0.1/debug

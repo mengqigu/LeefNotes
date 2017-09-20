@@ -1,6 +1,16 @@
 #!/bin/bash
 
 DEV_DIR=/home/mengqigu/Developer
+if [ "$(uname)" == "Darwin" ]; then
+    # Mac OS X platform
+    DEV_DIR=/Users/mengqigu/Developer
+# elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+#     # GNU/Linux platform
+# elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+#     # 32 bits Windows NT platform
+# elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+#     # 64 bits Windows NT platform
+fi
 cd $DEV_DIR
 
 rsync -av --exclude='mgleefnotes/.gitignore' --exclude='mgleefnotes/.git/' mgleefnotes nextcloud/apps

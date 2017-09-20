@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - Gallery
+ * This file is adapted from Nextcloud - Gallery app
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -19,18 +19,21 @@ use OCP\Files\Node;
 /**
  * Contains various methods to retrieve information from the filesystem
  *
- * @package OCA\Gallery\Service
+ * @package OCA\MGLeefNotes\Service
  */
 abstract class FilesService extends Service {
 
-	/** @var int */
+    /** @var int */
 	protected $virtualRootLevel = null;
 	/** @var string[] */
 	protected $features;
-	/** @var string */
+	/**
+     * If a folder contains a node .nomedia, we ignore it in albums
+     * @var string
+     */
 	protected $ignoreAlbum = '.nomedia';
 
-	/**
+    /**
 	 * Retrieves all files and sub-folders contained in a folder
 	 *
 	 * If we can't find anything in the current folder, we throw an exception as there is no point
@@ -52,46 +55,46 @@ abstract class FilesService extends Service {
 		return $nodes;
 	}
 
-	/**
-	 * Determines if the files are hosted locally (shared or not) and can be used by the preview
-	 * system
-	 *
-	 * isMounted() doesn't include externally hosted shares, so we need to exclude those from the
-	 * non-mounted nodes
-	 *
-	 * @param Node $node
-	 *
-	 * @return bool
-	 */
-	protected function isAllowedAndAvailable($node) {
-		try {
-			return $node && $this->isAllowed($node) && $this->isAvailable($node);
-		} catch (\Exception $exception) {
-			$message = 'The folder is not available: ' . $exception->getMessage();
-			$this->logger->error($message);
+    /**
+     * Determines if the files are hosted locally (shared or not) and can be used by the preview
+     * system
+     *
+     * isMounted() doesn't include externally hosted shares, so we need to exclude those from the
+     * non-mounted nodes
+     *
+     * @param Node $node
+     *
+     * @return bool
+     */
+    protected function isAllowedAndAvailable($node) {
+        try {
+            return $node && $this->isAllowed($node) && $this->isAvailable($node);
+        } catch (\Exception $exception) {
+            $message = 'The folder is not available: ' . $exception->getMessage();
+            $this->logger->error($message);
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
-	/**
-	 * Returns the node type, either 'dir' or 'file'
-	 *
-	 * If there is a problem, we return an empty string so that the node can be ignored
-	 *
-	 * @param Node $node
-	 *
-	 * @return string
-	 */
-	protected function getNodeType($node) {
-		try {
-			$nodeType = $node->getType();
-		} catch (\Exception $exception) {
-			return '';
-		}
+    /**
+    * Returns the node type, either 'dir' or 'file'
+    *
+    * If there is a problem, we return an empty string so that the node can be ignored
+    *
+    * @param Node $node
+    *
+    * @return string
+    */
+    protected function getNodeType($node) {
+        try {
+            $nodeType = $node->getType();
+        } catch (\Exception $exception) {
+            return '';
+        }
 
-		return $nodeType;
-	}
+        return $nodeType;
+    }
 
 	/**
 	 * Returns various information about a node
@@ -103,8 +106,8 @@ abstract class FilesService extends Service {
 	protected function getNodeData($node) {
 		$imagePath = $this->environment->getPathFromVirtualRoot($node);
 		$nodeId = $node->getId();
-		$mTime = $node->getMTime();
-		$etag = $node->getEtag();
+		$mTime = $node->getMTime(); // Modified time, int
+		$etag = $node->getEtag();   // HTTP etag, string
 		$size = $node->getSize();
 		$sharedWithUser = $node->isShared();
 		$ownerData = $this->getOwnerData($node);
@@ -133,6 +136,7 @@ abstract class FilesService extends Service {
 
 	/**
 	 * Returns the node if it's a folder we have access to
+     * If a folder has a node called $this->ignoreAlbum, we don't have access to it
 	 *
 	 * @param Folder $node
 	 * @param string $nodeType
@@ -141,6 +145,7 @@ abstract class FilesService extends Service {
 	 */
 	protected function getAllowedSubFolder($node, $nodeType) {
 		if ($nodeType === 'dir') {
+            // nodeExists() checks if a node exists in a folder
 			/** @var Folder $node */
 			if (!$node->nodeExists($this->ignoreAlbum)) {
 				return [$node];
@@ -151,7 +156,7 @@ abstract class FilesService extends Service {
 	}
 
 	/**
-	 * Determines if we've reached the root folder
+	 * Determines if we've reached the root folder (/userId/files)
 	 *
 	 * @param Folder $folder
 	 * @param int $level
@@ -190,7 +195,7 @@ abstract class FilesService extends Service {
 		return [];
 	}
 
-	/**
+    /**
 	 * Determines if we can consider the node mounted locally or if it's been authorised to be
 	 * scanned
 	 *
@@ -212,20 +217,20 @@ abstract class FilesService extends Service {
 		return $allowed;
 	}
 
-	/**
-	 * Determines if the node is available, as in readable
-	 *
-	 * @todo Test to see by how much using file_exists slows things down
-	 *
-	 * @param Node $node
-	 *
-	 * @return bool
-	 */
-	private function isAvailable($node) {
-		return $node->isReadable();
-	}
+    /**
+     * Determines if the node is available, as in readable
+     *
+     * @todo Test to see by how much using file_exists slows things down
+     *
+     * @param Node $node
+     *
+     * @return bool
+     */
+    private function isAvailable($node) {
+        return $node->isReadable();
+    }
 
-	/**
+    /**
 	 * Determines if the user has allowed the use of external shares
 	 *
 	 * @return bool
@@ -246,6 +251,7 @@ abstract class FilesService extends Service {
 	 * @return bool
 	 */
 	private function isExternalShare($node) {
+        // Get the storage id. Parse this id to see if it is shared
 		$sid = explode(
 			':',
 			$node->getStorage()
@@ -255,25 +261,25 @@ abstract class FilesService extends Service {
 		return ($sid[0] === 'shared' && $sid[2][0] !== '/');
 	}
 
-	/**
-	 * Returns what we known about the owner of a node
-	 *
-	 * @param Node $node
-	 *
-	 * @return null|array<string,int|string>
-	 */
-	private function getOwnerData($node) {
-		$owner = $node->getOwner();
-		$ownerData = [];
-		if ($owner) {
-			$ownerData = [
-				'uid'         => $owner->getUID(),
-				'displayname' => $owner->getDisplayName()
-			];
-		}
+    /**
+    * Returns what we known about the owner of a node
+    *
+    * @param Node $node
+    *
+    * @return null|array<string,int|string>
+    */
+    private function getOwnerData($node) {
+        $owner = $node->getOwner();
+        $ownerData = [];
+        if ($owner) {
+            $ownerData = [
+                'uid'         => $owner->getUID(),
+                'displayname' => $owner->getDisplayName()
+            ];
+        }
 
-		return $ownerData;
-	}
+        return $ownerData;
+    }
 
 	/**
 	 * Returns an array containing information about a node
@@ -303,5 +309,4 @@ abstract class FilesService extends Service {
 			'permissions'    => $permissions
 		];
 	}
-
 }

@@ -22,17 +22,56 @@
 
 namespace OCA\MGLeefNotes\Controller;
 
-use OCP\IRequest;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\DataResponse;
+use OCA\MGLeefNotes\Environment\Environment;
+use OCA\MGLeefNotes\Service\SearchMediaService;
+
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\ILogger;
+use OCP\IRequest;
 
 class PageController extends Controller {
+	/**
+	 * @var string
+	 */
 	private $userId;
 
-	public function __construct($AppName, IRequest $request, $UserId){
+	/**
+	 * @var ILogger
+	 */
+	private $logger;
+	/**
+	 * @var Environment
+	 */
+	protected $environment;
+	/**
+	 * @var SearchMediaService
+	 */
+	protected $searchMediaService;
+	/**
+	 * Constructor
+	 *
+	 * @param string $AppName
+	 * @param string $UserId
+	 * @param Environment $environment
+	 * @param SearchMediaService $searchMediaService
+	 * @param IRequest $request
+	 * @param ILogger $logger
+	 */
+	public function __construct(
+		$AppName,
+		$UserId,
+		Environment $environment,
+		SearchMediaService $searchMediaService,
+		IRequest $request,
+		ILogger $logger
+	){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
+		$this->environment = $environment;
+		$this->searchMediaService = $searchMediaService;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -46,7 +85,17 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		// throw new \Exception( "This is how to debug to nextcloud log!" );
+		// $this->logger->alert("In page controller: " . $this->searchMediaService->debug(),
+		// array('app' => $this->appName));
+		$searchResults = $this->searchMediaService->
+			getMediaFiles($this->environment->getUserFolder(),[],[]);
+		// $searchResults = $this->searchMediaService->debug();
+		// $result = "";
+		// foreach ($searchResults as $imageData) {
+		// 	$result = $result . $imageData[0];
+		// }
+		$result = print_r($searchResults, true);
+		$this->logger->alert("In page caceh? search: $result", array('app' => $this->appName));
 		return new TemplateResponse('mgleefnotes', 'index');  // templates/index.php
 	}
 

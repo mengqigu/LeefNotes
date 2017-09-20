@@ -2,7 +2,7 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>mgleefnotes</id>
-    <name>Leef Notes</name>
+    <name>Leef info name Notes</name>
     <summary>A simple note taking application</summary>
     <description><![CDATA[A simple note taking application]]></description>
     <licence>agpl</licence>
@@ -12,12 +12,6 @@
     <category>office</category>
     <bugs>https://github.com/mengqigu/LeefNotes</bugs>
     <dependencies>
-        <nextcloud min-version="12" max-version="12"/>
+        <nextcloud min-version="12" max-version="13"/>
     </dependencies>
-    <navigations>
-        <navigation>
-            <name>Leef Notes</name>
-            <route>mgleefnotes.page.index</route>
-        </navigation>
-    </navigations>
 </info>

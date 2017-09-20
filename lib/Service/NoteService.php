@@ -26,10 +26,12 @@ use Exception;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\IUserManager;
 
 use OCA\MGLeefNotes\Db\Note;
 use OCA\MGLeefNotes\Db\NoteMapper;
 
+use OCA\MGLeefNotes\Environment\Environment;
 
 class NoteService {
     private $mapper;

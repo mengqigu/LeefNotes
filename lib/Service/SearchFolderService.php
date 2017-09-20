@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - Gallery
+ * This file is adapted from Nextcloud - Gallery app
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -23,7 +23,7 @@ use OCA\Gallery\Environment\NotFoundEnvException;
  *    * given a file
  *    * given a folder name with a typo
  *
- * @package OCA\Gallery\Service
+ * @package OCA\MGLeefNotes\Service
  */
 class SearchFolderService extends FilesService {
 	/**
@@ -33,6 +33,7 @@ class SearchFolderService extends FilesService {
 
 	/**
 	 * This returns what we think is the current folder node based on a given path
+	 * Returns an array consists of <path to folder, Node object for the foler>
 	 *
 	 * @param string $location
 	 * @param string[] $features
@@ -44,7 +45,6 @@ class SearchFolderService extends FilesService {
 
 		return $this->findFolder($location);
 	}
-
 	/**
 	 * This returns the current folder node based on a path
 	 *
@@ -117,5 +117,4 @@ class SearchFolderService extends FilesService {
 
 		return [$path, $node];
 	}
-
 }
